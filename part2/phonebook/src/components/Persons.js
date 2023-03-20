@@ -4,7 +4,7 @@ const Persons = ({ personsObject, personFilter, deleteHandler }) => {
         <div>
             {filteredPersons().map(person => {
                 return(
-                    <p key={person.name}>{person.name} {person.number} <button onClick={()=>deleteHandler(person.id)}>delete</button></p>
+                    <p key={person.name}>{person.name} {person.number} <button onClick={()=>deleteHandler(person)}>delete</button></p>
                 )
             })}
         </div>
