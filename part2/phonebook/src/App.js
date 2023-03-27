@@ -61,7 +61,12 @@ const App = () => {
             setPersons(newPersons)
             setNewName('')
             setNewNumber('')
+            setNotificationColor('green')
             updateNotification(`Updated ${returnedPerson.name}`)
+          })
+          .catch(error=>{
+            setNotificationColor('red')
+            updateNotification(error.response.data.error)
           })
       }
     }
@@ -74,6 +79,10 @@ const App = () => {
           setNewNumber('')
           setNotificationColor('green')
           updateNotification(`Added ${returnedPerson.name}`)
+        })
+        .catch(error=>{
+          setNotificationColor('red')
+          updateNotification(error.response.data.error)
         })
     }
   }
