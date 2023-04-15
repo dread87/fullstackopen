@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../app");
 const Blog = require("../models/blog");
-const assert = require('assert')
+const assert = require("assert");
 
 const api = supertest(app);
 
@@ -64,7 +64,7 @@ test("making an HTTP POST request to the /api/blogs URL successfully creates a n
   expect(response.body).toHaveLength(initialBlog.length + 1);
 });
 
-test("if the likes property is missing from the request, it will default to the value 0", async()=>{
+test("if the likes property is missing from the request, it will default to the value 0", async () => {
   await api
     .post("/api/blogs")
     .send({
@@ -73,12 +73,12 @@ test("if the likes property is missing from the request, it will default to the 
       url: "/test4",
     })
     .expect(201)
-    .expect((response)=>{
-      assert.ok(response.body.likes===0)
-    })
-})
+    .expect((response) => {
+      assert.ok(response.body.likes === 0);
+    });
+});
 
-test("if the likes property is missing from the request, it will default to the value 0", async()=>{
+test("if the likes property is missing from the request, it will default to the value 0", async () => {
   await api
     .post("/api/blogs")
     .send({
@@ -87,14 +87,24 @@ test("if the likes property is missing from the request, it will default to the 
       url: "/test4",
     })
     .expect(201)
-    .expect((response)=>{
-      assert.ok(response.body.likes===0)
-    })
-})
+    .expect((response) => {
+      assert.ok(response.body.likes === 0);
+    });
+});
 
-test("if the title or url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request", async()=>{
-// 
-})
+test("if the title or url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request", async () => {
+  //
+});
+
+test("deleting a single blog post resource", async () => {
+  const blogs = await api.get("/api/blogs");
+  const id = blogs.body[0].id;
+
+  await api.delete(`/api/blogs/${id}`).expect(204);
+
+  const newBlogs = await api.get("/api/blogs");
+  expect(newBlogs.body).toHaveLength(blogs.body.length - 1);
+});
 afterAll(async () => {
   await mongoose.connection.close();
 });
