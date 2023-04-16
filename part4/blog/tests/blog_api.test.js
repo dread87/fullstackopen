@@ -105,6 +105,16 @@ test("deleting a single blog post resource", async () => {
   const newBlogs = await api.get("/api/blogs");
   expect(newBlogs.body).toHaveLength(blogs.body.length - 1);
 });
+
+test("updating the information of an individual blog post", async () => {
+  const blogs = await api.get("/api/blogs");
+  const id = blogs.body[0].id;
+
+  await api.put(`/api/blogs/${id}`).send({ likes: 123456789 }).expect(200);
+
+  const newBlogs = await api.get("/api/blogs");
+  expect(newBlogs.body[0].likes).toBe(123456789);
+});
 afterAll(async () => {
   await mongoose.connection.close();
 });
