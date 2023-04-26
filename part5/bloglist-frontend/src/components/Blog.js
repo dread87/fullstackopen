@@ -1,33 +1,33 @@
-import { useState } from "react";
+import { useState } from 'react'
 const Blog = ({ blog, updateLikes, removeBlog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: "solid",
+    border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-  };
+  }
 
   const buttonStyle = {
-    background: "red",
-    color: "white",
-    padding: "4px",
-    marginLeft: "2px",
-    fontWeight: "bold",
-  };
-  const [contentVisible, setContentVisible] = useState(false);
+    background: 'red',
+    color: 'white',
+    padding: '4px',
+    marginLeft: '2px',
+    fontWeight: 'bold',
+  }
+  const [contentVisible, setContentVisible] = useState(false)
 
-  const changeVisibility = () => setContentVisible(!contentVisible);
+  const changeVisibility = () => setContentVisible(!contentVisible)
 
   return (
     <div style={blogStyle}>
       <div>
         {blog.title} by {blog.author}
         <button
-          style={{ ...buttonStyle, background: "green" }}
+          style={{ ...buttonStyle, background: 'green' }}
           onClick={changeVisibility}
         >
-          {!contentVisible ? "View" : "Hide"}
+          {!contentVisible ? 'View' : 'Hide'}
         </button>
         {contentVisible ? (
           <div>
@@ -39,7 +39,7 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
             <div>
               Likes: {blog.likes}
               <button
-                style={{ ...buttonStyle, background: "blue" }}
+                style={{ ...buttonStyle, background: 'blue' }}
                 onClick={() => updateLikes(blog)}
               >
                 Like
@@ -55,7 +55,7 @@ const Blog = ({ blog, updateLikes, removeBlog }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog

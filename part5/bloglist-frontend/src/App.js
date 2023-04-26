@@ -1,111 +1,111 @@
-import { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
-import Notification from "./components/Notification";
-import blogService from "./services/blogs";
-import loginService from "./services/login";
-import LoginForm from "./components/LoginForm";
-import Togglable from "./components/Togglable";
-import BlogForm from "./components/BlogForm";
+import { useState, useEffect, useRef } from 'react'
+import Blog from './components/Blog'
+import Notification from './components/Notification'
+import blogService from './services/blogs'
+import loginService from './services/login'
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
-  const [erorMessage, setErrorMessage] = useState(null);
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const [blogs, setBlogs] = useState([])
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
+  const [erorMessage, setErrorMessage] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    blogService.getAll().then((blogs) => setBlogs(blogs))
+  }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
 
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
     }
-  }, []);
+  }, [])
 
   const handleLogin = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     try {
-      const user = await loginService.login({ username, password });
+      const user = await loginService.login({ username, password })
 
-      window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
+      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
 
-      blogService.setToken(user.token);
-      setUser(user);
-      setUsername("");
-      setPassword("");
+      blogService.setToken(user.token)
+      setUser(user)
+      setUsername('')
+      setPassword('')
     } catch (error) {
-      setErrorMessage("Wrong credentials");
+      setErrorMessage('Wrong credentials')
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+        setErrorMessage(null)
+      }, 5000)
     }
-  };
+  }
 
   const handleLogout = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    window.localStorage.removeItem("loggedBlogAppUser");
+    window.localStorage.removeItem('loggedBlogAppUser')
 
-    blogService.setToken(null);
-    setUser(null);
-    setUsername("");
-    setPassword("");
-  };
+    blogService.setToken(null)
+    setUser(null)
+    setUsername('')
+    setPassword('')
+  }
 
   const addBlog = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const blogObject = {
       title,
       author,
       url,
-    };
+    }
 
     blogService.create(blogObject).then((returnedObj) => {
       //setBlogs(blogs.concat(returnedObj));
-      blogService.getAll().then((blogs) => setBlogs(blogs));
-      setAuthor("");
-      setTitle("");
-      setUrl("");
-      blogFormRef.current.toggleVisibility();
+      blogService.getAll().then((blogs) => setBlogs(blogs))
+      setAuthor('')
+      setTitle('')
+      setUrl('')
+      blogFormRef.current.toggleVisibility()
 
       setErrorMessage(
         `Added a new blog: ${returnedObj.title} by ${returnedObj.author}`
-      );
+      )
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    });
-  };
+        setErrorMessage(null)
+      }, 5000)
+    })
+  }
   const handleUpdateLikes = (blog) => {
     blogService.updateLikes(blog).then((returnedObj) => {
-      const idx = blogs.findIndex((blog) => blog.id === returnedObj.id);
-      let newBlogs = [...blogs];
-      console.log(blogs, newBlogs);
-      newBlogs[idx] = returnedObj;
-      setBlogs(newBlogs);
-    });
-  };
+      const idx = blogs.findIndex((blog) => blog.id === returnedObj.id)
+      let newBlogs = [...blogs]
+      console.log(blogs, newBlogs)
+      newBlogs[idx] = returnedObj
+      setBlogs(newBlogs)
+    })
+  }
 
   const handleRemove = (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      blogService.remove(blog).then((returnedObj) => {
-        const newBlogs = blogs.filter((b) => b.id !== blog.id);
-        setBlogs(newBlogs);
-      });
+      blogService.remove(blog).then((_returnedObj) => {
+        const newBlogs = blogs.filter((b) => b.id !== blog.id)
+        setBlogs(newBlogs)
+      })
     }
-  };
+  }
   //console.log(blogs);
-  const blogFormRef = useRef();
+  const blogFormRef = useRef()
   return (
     <div>
       <h2>Blog App</h2>
@@ -123,7 +123,7 @@ const App = () => {
       ) : (
         <div>
           <p>
-            {user.name} logged in.{" "}
+            {user.name} logged in.{' '}
             <button onClick={handleLogout}>Logout</button>
           </p>
           <Togglable buttonLabel="New blog" ref={blogFormRef}>
@@ -151,7 +151,7 @@ const App = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

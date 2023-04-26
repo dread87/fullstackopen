@@ -24,7 +24,7 @@ const BlogForm = ({
       </div>
       <button type="submit">Create</button>
     </form>
-  );
-};
+  )
+}
 
-export default BlogForm;
+export default BlogForm
