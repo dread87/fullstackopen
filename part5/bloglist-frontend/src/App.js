@@ -98,7 +98,7 @@ const App = () => {
 
   const handleRemove = (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      blogService.remove(blog).then((_returnedObj) => {
+      blogService.remove(blog).then(() => {
         const newBlogs = blogs.filter((b) => b.id !== blog.id)
         setBlogs(newBlogs)
       })
