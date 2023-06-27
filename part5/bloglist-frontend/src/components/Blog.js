@@ -21,7 +21,7 @@ const Blog = ({ blog, updateLikes, removeBlog, user }) => {
 
   return (
     <div style={blogStyle}>
-      <div>
+      <div className='blog'>
         {blog.title} by {blog.author}
         <button
           style={{ ...buttonStyle, background: 'green' }}
