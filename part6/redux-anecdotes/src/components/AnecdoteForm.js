@@ -5,10 +5,13 @@ import { changeNotification } from "../reducers/notificationReducer";
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
 
-  const newAnecdote = (event) => {
+  const newAnecdote = async(event) => {
     event.preventDefault();
     const content = event.target.anecdote.value;
     event.target.anecdote.value = "";
+
+    //const anecdoteObj = await anecdoteService.createNew(content)
+
     dispatch(createAnecdote(content));
     dispatch(changeNotification(`You added '${content}'`))
   };
